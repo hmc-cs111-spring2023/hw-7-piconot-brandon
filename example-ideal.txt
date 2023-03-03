@@ -1,0 +1,41 @@
+# A Picobot program that can fill an empty room
+
+# States 0 and 1: move to the top left
+
+# State 0: move left
+0 **x* -> W 0   # go all the way to the left
+0 **W* -> X 1   # can't go left anymore, so try to go up
+
+# State 1: move up
+1 x*** -> N 1  # go all the way to the top
+1 N**x -> S 2  # can't go up any more, so try to go down
+
+# States 2 and 3: fill from top to bottom, left to right
+
+# State 2: fill this column to the bottom
+2 ***x -> S 2  # go all the way to the bottom
+2 *x*S -> E 3  # can't go down anymore, so try to go right
+
+# State 3: fill this column to the top
+3 x*** -> N 3  # go all the way to the top
+3 Nx** -> E 2  # can't go up anymore, so try to go right
+
+One possible way of doing this:
+
+go left until wall //go(left).until(wall)
+go up until wall 
+go down until wall
+
+until finished do: 
+go right 1 then go up until wall //go(right(1)).thenGo(up).until(wall)
+go right 1 then go down until wall
+
+Possible way number 2:
+
+go left until wall
+go up until wall
+go down until wall
+
+go right 1 then (go up) or (go down) until finished 
+// go(right(1)).thenGO(up.or(down)).until(finished)
+// this may use () as a conditional check where if it cant do the action it returns false and does the first actions that returns true
