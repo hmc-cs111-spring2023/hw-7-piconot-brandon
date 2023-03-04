@@ -54,7 +54,7 @@ var state: ((State,State), (State,State)) = ((null, null), (null, null))
 
 def setState(n: Int) = State(n.toString)
 
-// def getState(state: State) = state.toInt
+def getState(state: State) = state.toString.toInt
 
 // Part 1:
 val conversion: Conversion[String, List[Rule]] = (str: String) => {
@@ -69,7 +69,7 @@ val conversion: Conversion[String, List[Rule]] = (str: String) => {
     if word == "go" then surroundings = (Surroundings(Anything, Anything, Anything, Anything), surroundings._2)
     if directionWords.contains(word) then direction = (setDirection(word), direction._2)
     if (word == "until") then {
-        state = (state._1, (state._1._2, setState(1)))
+        state = (state._1, (state._1._2, setState(getState(state._1._2) + 1)))
         direction = (direction._1, setDirection(word)) 
     }
     if word == "wall" then surroundings = (surroundings._1, setWall(direction._1))
